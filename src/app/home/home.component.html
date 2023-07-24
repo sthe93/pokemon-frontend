@@ -1,0 +1,9 @@
+<h2>Pokémon List</h2>
+<ul>
+  <li *ngFor="let pokemon of pokemons">
+    <a [routerLink]="['/pokemon', pokemon.id]">
+      {{ pokemon.name }}
+      <img [src]="pokemon.image" [alt]="pokemon.name" />
+    </a>
+  </li>
+</ul>
