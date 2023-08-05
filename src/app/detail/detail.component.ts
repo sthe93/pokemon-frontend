@@ -24,8 +24,8 @@ export class DetailComponent implements OnInit {
   }
 
   getPokemonDetails(pokemonId: string): void {
-    // Update the API URL with the base URL of your Node.js server (http://localhost:3000)
-    this.http.get<any>(`http://localhost:3000/api/pokemon/${pokemonId}`).subscribe(
+    // Update the URL to use the Heroku API endpoint
+    this.http.get<any>(`https://sbpokemon-api-c790c9c2ccbd.herokuapp.com/api/pokemon/${pokemonId}`).subscribe(
       (response) => {
         this.pokemon = response;
       },

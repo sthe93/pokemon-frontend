@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class HomeComponent implements OnInit {
   pokemons: any[] = [];
 
+  // Inject the HttpClient service
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
   }
 
   getPokemons(): void {
-    this.http.get<any[]>('http://localhost:3000/api/pokemons').subscribe(
+    // Update the URL to use the Heroku API endpoint
+    this.http.get<any[]>('https://sbpokemon-api-c790c9c2ccbd.herokuapp.com/api/pokemons').subscribe(
       (response) => {
         this.pokemons = response;
       },
