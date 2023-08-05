@@ -1,7 +1,14 @@
-<div *ngIf="pokemon">
+<!-- detail.component.html -->
+<div class="pokemon-details" *ngIf="pokemon">
   <h2>{{ pokemon.name }}</h2>
-  <img [src]="pokemon.image" [alt]="pokemon.name" />
-  <p>Height: {{ pokemon.height }}</p>
-  <p>Weight: {{ pokemon.weight }}</p>
-  <!-- Display other detailed stats about the Pokémon -->
+  <div class="pokemon-info">
+    <div class="pokemon-image">
+      <img [src]="pokemon.image" [alt]="pokemon.name" width="200" height="200" />
+    </div>
+    <div class="pokemon-stats">
+      <p>Height: {{ pokemon.height }} m</p>
+      <p>Weight: {{ pokemon.weight }} kg</p>
+    </div>
+  </div>
+  <button (click)="goBack()">Back to Home</button>
 </div>
