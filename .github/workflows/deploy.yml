@@ -13,12 +13,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # Authenticate with Heroku using API key and set Docker credentials
-      - name: Set Docker Credentials
-        run: echo $HEROKU_API_KEY | docker login -u _ --password-stdin registry.heroku.com
+      # Authenticate with Heroku using API key from secret
+      - name: Set Heroku API Key
+        run: echo $HEROKU_API_KEY > ~/.netrc
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          
+
       # Build and push Docker image to Heroku
       - name: Build and Push Docker Image
         run: |
