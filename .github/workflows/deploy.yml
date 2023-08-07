@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  # Use Ubuntu runner
 
     steps:
     - name: Checkout code
@@ -23,15 +23,13 @@ jobs:
         curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
         echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> $GITHUB_ENV
       shell: bash
-      
-- name: Logout from Heroku CLI
-  run: heroku logout
 
-- name: Login to Heroku CLI
-  run: heroku login -i
-  env:
-    HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
-    HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    - name: Login to Heroku CLI
+      run: |
+        heroku login -i
+      env:
+        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
     - name: Log in to Heroku Container Registry
       run: |
