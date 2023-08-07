@@ -24,15 +24,10 @@ jobs:
         echo 'export PATH="/usr/local/heroku/bin:$PATH"' >> $GITHUB_ENV
       shell: bash
 
-    - name: Login to Heroku CLI
+    - name: Set Heroku CLI configuration
       run: |
-        expect -c '
-        spawn heroku login -i
-        expect "Email:" { send "$env(HEROKU_EMAIL)\r" }
-        expect "Password:" { send "$env(HEROKU_API_KEY)\r" }
-        expect eof'
+        heroku config:set HEROKU_API_KEY=${HEROKU_API_KEY} -a ${{ secrets.HEROKU_APP_NAME }}
       env:
-        HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
 
