@@ -25,6 +25,6 @@ jobs:
           docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
 
-      # Release the Docker container
+      # Release the Docker containe
       - name: Release to Heroku
         run: heroku container:release web -a ${{ secrets.HEROKU_APP_NAME }}
