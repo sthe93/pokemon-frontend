@@ -26,10 +26,15 @@ jobs:
 
     - name: Login to Heroku CLI
       run: |
-        heroku login -i
+        expect -c '
+        spawn heroku login -i
+        expect "Email:" { send "$env(HEROKU_EMAIL)\r" }
+        expect "Password:" { send "$env(HEROKU_API_KEY)\r" }
+        expect eof'
       env:
         HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
 
     - name: Log in to Heroku Container Registry
       run: |
