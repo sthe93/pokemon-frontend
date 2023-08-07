@@ -21,9 +21,9 @@ RUN npm run build --configuration production
 # Stage 2: Use nginx to serve the built app
 FROM nginx:alpine
 
-# Copy configuration files
-COPY default.conf.template /etc/nginx/conf.d/default.conf.template
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy configuration files (make sure these files exist in the same directory as Dockerfile)
+#COPY default.conf.template /etc/nginx/conf.d/default.conf.template
+#COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built Angular app from the build stage
 COPY --from=build /app/dist/pokemon-app /usr/share/nginx/html
