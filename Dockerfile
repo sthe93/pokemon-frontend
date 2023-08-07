@@ -1,4 +1,4 @@
-# Use the official Node.js 14 image as the base image
+# Stage 1: Build the Angular app
 FROM node:lts AS build
 
 # Set the working directory
@@ -18,10 +18,15 @@ COPY . .
 # Build the Angular app
 RUN npm run build --configuration production
 
-# Use a lightweight web server to serve the app
+# Stage 2: Use nginx to serve the built app
 FROM nginx:alpine
+
+# Copy configuration files
 COPY default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder  /app/dist/pokemon-app /usr/share/nginx/html 
-CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
 
+# Copy built Angular app from the build stage
+COPY --from=build /app/dist/pokemon-app /usr/share/nginx/html
+
+# Configure nginx and start
+CMD /bin/bash -c "envsubst '\$PORT' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" && nginx -g 'daemon off;'
