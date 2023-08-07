@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment'; 
 
 @Component({
   selector: 'app-detail',
@@ -24,27 +25,26 @@ export class DetailComponent implements OnInit {
   }
 
   getPokemonDetails(pokemonId: string): void {
-    // Update the URL to use the Heroku API endpoint
-    this.http.get<any>(`https://sbpokemon-api-c790c9c2ccbd.herokuapp.com/api/pokemon/${pokemonId}`).subscribe(
+    const apiUrl = `${environment.Base_Url}/pokemon/${pokemonId}`; // Use the base URL without the "pokemon" segment
+    this.http.get<any>(apiUrl).subscribe(
       (response) => {
         this.pokemon = response;
+        this.formatHeightAndWeight(); // Format height and weight after fetching details
       },
       (error) => {
         console.error('Error fetching Pokémon details', error);
       }
     );
   }
+  
 goBack(): void {
-  this.router.navigate(['/']); // Replace '/' with the actual path of your home page if needed
+  this.router.navigate(['/']);
 }
 
 private formatHeightAndWeight(): void {
-  // Format height to display in meters
   if (this.pokemon.height) {
     this.pokemon.height = (this.pokemon.height / 10).toFixed(1);
   }
-
-  // Format weight to display in kilograms
   if (this.pokemon.weight) {
     this.pokemon.weight = (this.pokemon.weight / 10).toFixed(1);
   }

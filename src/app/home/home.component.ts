@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { environment } from '../../environments/environment'; 
 
 @Component({
   selector: 'app-home',
@@ -12,26 +12,26 @@ export class HomeComponent implements OnInit {
   filteredPokemons: any[] = [];
   searchText: string = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.getPokemons();
-    console.log(this.filteredPokemons)
+    console.log(this.filteredPokemons);
   }
 
   getPokemons(): void {
     const apiUrl = this.searchText
-      ? `https://sbpokemon-api-c790c9c2ccbd.herokuapp.com/api/pokemons?search=${encodeURIComponent(this.searchText)}`
-      : 'https://sbpokemon-api-c790c9c2ccbd.herokuapp.com/api/pokemons';
+    ? `${environment.Base_Url}/pokemons?search=${encodeURIComponent(this.searchText)}`
+    : `${environment.Base_Url}/pokemons`;
 
     this.http.get<any[]>(apiUrl).subscribe(
       (response) => {
         this.pokemons = response;
-        this.sortPokemonsAlphabetically(); // Call the sorting function after fetching the data
-        this.filterPokemons(); // Call the filtering function after fetching the data
+        this.sortPokemonsAlphabetically();
+        this.filterPokemons();
       },
       (error) => {
-        console.error('Error fetching Pokémon list', error);
+        console.error('Error fetching Pokemon list', error);
       }
     );
   }
@@ -44,4 +44,5 @@ export class HomeComponent implements OnInit {
     this.filteredPokemons = this.pokemons.filter(pokemon =>
       pokemon.name.toLowerCase().includes(this.searchText.toLowerCase())
     );
-  }}
+  }
+}
