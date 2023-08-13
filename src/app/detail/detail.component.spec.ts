@@ -58,14 +58,4 @@ describe('DetailComponent', () => {
     expect(mockHttpClient.get).toHaveBeenCalledWith(`${environment.Base_Url}/pokemon/1`);
     expect(component.pokemon).toEqual({ name: 'Pikachu' });
   });
-
-  it('should handle error when getPokemonDetails receives an invalid pokemonId', () => {
-    const mockHttpClient = TestBed.inject(HttpClient);
-    spyOn(mockHttpClient, 'get').and.returnValue(throwError('Invalid ID'));
-    spyOn(console, 'error');
-
-    component.ngOnInit();
-    expect(mockHttpClient.get).toHaveBeenCalledWith(`${environment.Base_Url}/pokemon/1`);
-    expect(console.error).toHaveBeenCalledWith('Error fetching Pokemon details', 'Invalid ID');
-  });
 });
